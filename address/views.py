@@ -35,8 +35,8 @@ class DeleteAddress(generics.DestroyAPIView):
     authentication_classes = (TokenAuthentication,)    
     permission_classes = (permissions.IsAuthenticated,)
 
-    def delete(self, request):
-        address = Address.objects.get(user=request.user)
+    def delete(self, request , id_address):
+        address = Address.objects.get(pk=id_address)
         address.delete()
         return Response(
             { 
@@ -51,8 +51,8 @@ class UpdateAddress(generics.UpdateAPIView):
     serializer_class = AddressSerializer  
     permission_classes = (permissions.IsAuthenticated,)
           
-    def update(self, request):
-        self.object = Address.objects.get(user = request.user)
+    def update(self, request , id_address):
+        self.object = Address.objects.get(pk = id_address)
         instance = self.object
         instance.city = request.data.get("city")
         instance.zone = request.data.get("zone")
