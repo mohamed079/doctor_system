@@ -29,8 +29,8 @@ class DeleteReview(generics.DestroyAPIView):
     authentication_classes = (TokenAuthentication,)    
     permission_classes = (permissions.IsAuthenticated,)
 
-    def delete(self, request):
-        review = Review.objects.get(user=request.user)
+    def delete(self, request , id_review):
+        review = Review.objects.get(pk = id_review)
         review.delete()
         return Response(
             { 
@@ -45,8 +45,8 @@ class UpdateReview(generics.UpdateAPIView):
     serializer_class = ReviewSerializer  
     permission_classes = (permissions.IsAuthenticated,)
           
-    def update(self, request):
-        self.object = Review.objects.get(user = request.user)
+    def update(self, request , id_review):
+        self.object = Review.objects.get(pk = id_review)
         instance = self.object
         instance.rate = request.data.get("rate")
         instance.feedback = request.data.get("feedback")
