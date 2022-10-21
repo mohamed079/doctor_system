@@ -1,11 +1,13 @@
 from gc import get_objects
 from multiprocessing.spawn import import_main_path
-from django.shortcuts import render
+from django.shortcuts import render , get_object_or_404
 from rest_framework import generics , permissions , status
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework.decorators import api_view
 from knox.auth import TokenAuthentication
 from knox.models import AuthToken
+from doctor.models import Doctor
 from .models import Address
 from users.models import ExtendUser
 from .serializers import PatientAddressSerializer , DoctorAddressSerializer ,GeneralDoctorAddressSerializer
@@ -53,8 +55,8 @@ class DeleteAddress(generics.DestroyAPIView):
     authentication_classes = (TokenAuthentication,)    
     permission_classes = (permissions.IsAuthenticated,)
 
-    def delete(self, request , id_address):
-        address = Address.objects.get(pk=id_address)
+    def delete(self, request , address_id):
+        address = Address.objects.get(pk=address_id)
         address.delete()
         return Response(
             { 
@@ -69,8 +71,8 @@ class UpdatePatientAddress(generics.UpdateAPIView):
     serializer_class = PatientAddressSerializer  
     permission_classes = (permissions.IsAuthenticated,)
           
-    def update(self, request , id_address):
-        self.object = Address.objects.get(pk = id_address)
+    def update(self, request , address_id):
+        self.object = Address.objects.get(pk = address_id)
         instance = self.object
         instance.city = request.data.get("city")
         instance.zone = request.data.get("zone")
@@ -93,8 +95,8 @@ class UpdateDoctorAddress(generics.UpdateAPIView):
     serializer_class = DoctorAddressSerializer  
     permission_classes = (permissions.IsAuthenticated,)
           
-    def update(self, request , id_address):
-        self.object = Address.objects.get(pk = id_address)
+    def update(self, request , address_id):
+        self.object = Address.objects.get(pk = address_id)
         instance = self.object
         instance.city = request.data.get("city")
         instance.zone = request.data.get("zone")
@@ -137,5 +139,3 @@ class GetDoctorAddress (generics.RetrieveAPIView):
         address = Address.objects.filter(user=request.user)
         data = self.get_serializer(address, many=True).data
         return Response(data)
-
-
