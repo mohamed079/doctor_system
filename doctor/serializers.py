@@ -26,7 +26,7 @@ class GeneralDoctorSerializer(serializers.ModelSerializer):
     department = serializers.SlugRelatedField(read_only=True, slug_field='name')
     class Meta :       
         model = Doctor
-        fields = ("first_name" , "last_name" , "username" , "email" , "gender" , "age" , "birth_date" , "phone_number" , "image","description" , "degree" ,"department" , "fees") 
+        fields = ("first_name" , "last_name" , "gender" , "phone_number" , "image","description" , "degree" ,"department" , "fees") 
 
 
 ############################################    Register Serializer  ###############################################

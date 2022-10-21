@@ -97,7 +97,7 @@ class UserAPI (generics.RetrieveAPIView):
         doctor = Doctor.objects.get(email=self.request.user.email)
         return doctor
 
-############################################    Get All doctor Serializer  ###############################################
+############################################    Get All doctor  ###############################################
 
 class GetAll (APIView):
     def get(self, request):
