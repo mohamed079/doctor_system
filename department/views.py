@@ -69,11 +69,11 @@ class GetAll (APIView):
 
 #########################################  Get one Department  ##################################    
 
-@api_view(['GET'])
-def get_department(request,department_id):
-     department = get_object_or_404(Department,pk=department_id)
-     data = DepartmentSerializer(department).data
-     return Response (data)
+class Get (APIView):
+     def get(self , request , department_id):
+       department = Department.objects.filter(pk=department_id)
+       data = DepartmentSerializer(department, many=True).data
+       return Response (data)
 
 #########################################  Update Department  ###################################
 
