@@ -59,7 +59,7 @@ class UpdateReview(generics.UpdateAPIView):
             }
         )
 
-#########################################  Get All Address of user  ###################################
+#########################################  Get All Review of user  ###################################
 
 class Get (generics.RetrieveAPIView):
     authentication_classes = (TokenAuthentication,)
