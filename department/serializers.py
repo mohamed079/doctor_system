@@ -3,12 +3,14 @@ from unicodedata import name
 from doctor.serializers import GeneralDoctorSerializer
 from .models import Department
 from rest_framework import serializers , validators
+from address.serializers import GeneralDoctorAddressSerializer 
 
 class DepartmentSerializer (serializers.ModelSerializer):
     doctors = GeneralDoctorSerializer(required = False, many = True)
+    address = GeneralDoctorAddressSerializer(required = False, many = True)
     class Meta:
         model = Department
-        fields = ("id" , "name" , "description" , "doctors")
+        fields = ("id" , "name" , "description" , "doctors" , "address")
 
 
 class PrivateDepartmentSerializer (serializers.ModelSerializer):
