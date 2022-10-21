@@ -12,7 +12,7 @@ from rest_framework.response import Response
 from knox.auth import TokenAuthentication
 from knox.models import AuthToken 
 from users.serializers import ExtendUserSerializer 
-
+from address.models import Address
 
 ############################################    Register API   ###############################################
 
@@ -102,7 +102,7 @@ class UserAPI (generics.RetrieveAPIView):
 class Get (APIView):
     def get (self , request , doctor_id):
         doctor = Doctor.objects.filter(pk = doctor_id)
-        data = GeneralDoctorSerializer(doctor, many=True).data
+        data = GeneralDoctorSerializer(doctor , many=True).data
         return Response(data)        
 
 

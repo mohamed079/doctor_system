@@ -12,6 +12,7 @@ from .models import Doctor
 from django.contrib.auth import authenticate
 from django.core.validators import RegexValidator
 from users.models import ExtendUser
+from address.serializers import GeneralDoctorAddressSerializer 
 ############################################    Doctor Serializer  ###############################################
 
 class DoctorSerializer(serializers.ModelSerializer):
@@ -24,9 +25,10 @@ class DoctorSerializer(serializers.ModelSerializer):
 
 class GeneralDoctorSerializer(serializers.ModelSerializer):
     department = serializers.SlugRelatedField(read_only=True, slug_field='name')
+    address = GeneralDoctorAddressSerializer(required = False, many = True)
     class Meta :       
         model = Doctor
-        fields = ("first_name" , "last_name" , "gender" , "phone_number" , "image","description" , "degree" ,"department" , "fees") 
+        fields = ("first_name" , "last_name" , "gender" , "phone_number" , "image","description" , "degree" ,"department" , "fees" , "address") 
 
 
 ############################################    Register Serializer  ###############################################
