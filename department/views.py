@@ -1,15 +1,12 @@
 from ast import Delete
 from django.shortcuts import render , get_object_or_404
-from rest_framework import generics , permissions , status
+from rest_framework import generics , permissions 
 from .serializers import DepartmentSerializer ,PrivateDepartmentSerializer 
-from doctor.serializers import DoctorSerializer
 from .models import Department
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.decorators import api_view
 from knox.auth import TokenAuthentication
-from knox.models import AuthToken 
-from users.models import ExtendUser
 
 
 #########################################  Create Department  ###################################

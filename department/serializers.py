@@ -10,6 +10,7 @@ class DepartmentSerializer (serializers.ModelSerializer):
         model = Department
         fields = ("id" , "name" , "description" , "doctors")
 
+
 class PrivateDepartmentSerializer (serializers.ModelSerializer):
     class Meta:
         model = Department
