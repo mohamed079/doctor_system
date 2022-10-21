@@ -5,7 +5,7 @@ from django.shortcuts import render
 from patient.models import Patient
 from .models import Doctor
 from users.models import ExtendUser
-from .serializers import DoctorSerializer , RegisterSerializer  , LoginSerializer , ChangePasswordSerializer
+from .serializers import DoctorSerializer , RegisterSerializer  , LoginSerializer , ChangePasswordSerializer , GeneralDoctorSerializer
 from rest_framework import generics , permissions , status
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -86,7 +86,7 @@ class ChangePasswordAPI(generics.UpdateAPIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-############################################    get doctor Serializer  ###############################################
+############################################    get doctor with Token  ###############################################
 
 class UserAPI (generics.RetrieveAPIView):
     authentication_classes = (TokenAuthentication,)
@@ -97,10 +97,19 @@ class UserAPI (generics.RetrieveAPIView):
         doctor = Doctor.objects.get(email=self.request.user.email)
         return doctor
 
+############################################    get doctor   ###############################################
+
+class Get (APIView):
+    def get (self , request , doctor_id):
+        doctor = Doctor.objects.filter(pk = doctor_id)
+        data = GeneralDoctorSerializer(doctor, many=True).data
+        return Response(data)        
+
+
 ############################################    Get All doctor  ###############################################
 
 class GetAll (APIView):
     def get(self, request):
         doctors = Doctor.objects.all()
-        data = DoctorSerializer(doctors, many=True).data
+        data = GeneralDoctorSerializer(doctors, many=True).data
         return Response(data)        
