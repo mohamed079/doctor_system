@@ -8,7 +8,8 @@ class ReviewSerializer(serializers.ModelSerializer):
         
     def create(self, validated_data ):
         review = Review.objects.create(
-            user = validated_data["user"],
+            patient = validated_data["patient"],
+            doctor = validated_data["doctor"],
             rate = validated_data["rate"],
             feedback = validated_data["feedback"],
         )      
