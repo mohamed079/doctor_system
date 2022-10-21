@@ -52,7 +52,8 @@ INSTALLED_APPS = [
     'patient',
     'review',
     'address',
-    'reservation', 
+    'reservation',
+    'multiselectfield',
 ]
 
 MIDDLEWARE = [
