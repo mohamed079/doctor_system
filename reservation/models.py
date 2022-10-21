@@ -1,6 +1,7 @@
 from django.db import models
 from doctor.models import Doctor
-from patient.models import Patient
+from users.models import ExtendUser
+from address.models import Address
 
 class Reservation (models.Model):
 
@@ -9,8 +10,9 @@ class Reservation (models.Model):
         ACCEPTANCE = "Acceptance"
         REJECTED = "Rejected"
 
-    patient = models.ForeignKey(Patient , related_name="reservations" , on_delete=models.CASCADE)
-    doctor = models.ForeignKey(Doctor , related_name="reservations" , on_delete=models.CASCADE)
+    patient = models.ForeignKey(ExtendUser, related_name="reservations" , on_delete=models.CASCADE)
+    doctor = models.ForeignKey(Doctor , related_name="appointment" , on_delete=models.CASCADE)
+    address = models.ForeignKey(Address , related_name="reservations" , on_delete=models.CASCADE , null =True) 
     description = models.TextField(default="" , null=True , blank= True)
     status = models.CharField(choices=Status.choices , default=Status.PENDING , max_length=15)
     created_at = models.DateTimeField(auto_now_add=True)
