@@ -5,7 +5,7 @@ from .models import Department
 from rest_framework import serializers , validators
 
 class DepartmentSerializer (serializers.ModelSerializer):
-    doctors = GeneralDoctorSerializer(required = False, many = True)    
+    doctors = GeneralDoctorSerializer(required = False, many = True)
     class Meta:
         model = Department
         fields = ("id" , "name" , "description" , "doctors")
