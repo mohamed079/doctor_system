@@ -61,6 +61,7 @@ class ManageDoctorReservation (generics.UpdateAPIView):
         self.object = Reservation.objects.get(pk=id_reservation , doctor=request.user)
         instance = self.object
         instance.status = request.data.get("status")
+        instance.visit_time = request.data.get("visit_time")
         serializer = self.get_serializer(data = request.data)        
         serializer.is_valid(raise_exception=True) 
         instance.save()
