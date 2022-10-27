@@ -106,9 +106,11 @@ class UserAPI (generics.RetrieveAPIView):
     permission_classes = [permissions.IsAuthenticated,]
     serializer_class = ExtendUserSerializer 
 
-    def get_object (self,request):
-       user = self.request.user
-       return user
+    def get (self,request):
+        user = ExtendUser.objects.get(email=self.request.user.email)
+        data = self.get_serializer(user).data
+        return Response(data)        
+
 
 ############################################    Get All ExtendUser Serializer  ###############################################
 
