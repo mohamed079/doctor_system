@@ -7,7 +7,7 @@ from rest_framework.decorators import api_view
 from knox.auth import TokenAuthentication
 from .models import Address
 from .serializers import PatientAddressSerializer , DoctorAddressSerializer ,GeneralDoctorAddressSerializer
-
+from rest_framework.decorators import APIView
 ############################################    create patient address   ###############################################
 
 class CreatePatientAddress (generics.GenericAPIView):
@@ -60,55 +60,29 @@ class DeleteAddress(generics.DestroyAPIView):
 
 #########################################  Update Patient Address  ###################################
 
-class UpdatePatientAddress(generics.UpdateAPIView):
+class UpdatePatientAddress(APIView):
     authentication_classes = (TokenAuthentication,)
-    serializer_class = PatientAddressSerializer  
     permission_classes = (permissions.IsAuthenticated,)
-          
-    def update(self, request , address_id):
-        self.object = Address.objects.get(pk = address_id)
-        instance = self.object
-        instance.city = request.data.get("city")
-        instance.zone = request.data.get("zone")
-        instance.street_name = request.data.get("street_name")
-        instance.building_number = request.data.get("building_number")
-        instance.flat_number = request.data.get("flat_number")
-        instance.land_mark = request.data.get("land_mark")
-        serializer = self.get_serializer(data = request.data)        
-        serializer.is_valid(raise_exception=True) 
-        instance.save()  
-        return Response(
-            { 
-                'message': 'updated successfully'
-            }
-        )
+
+    def patch (self, request , address_id):
+        instance= Address.objects.get(pk = address_id , user=self.request.user.id)
+        serializer = PatientAddressSerializer(instance , data=request.data , partial = True )        
+        serializer.is_valid(raise_exception=True)
+        serializer.save()        
+        return Response(serializer.data)          
+
 #########################################  Update doctor Address  ###################################
 
-class UpdateDoctorAddress(generics.UpdateAPIView):
+class UpdateDoctorAddress(APIView):
     authentication_classes = (TokenAuthentication,)
-    serializer_class = DoctorAddressSerializer  
     permission_classes = (permissions.IsAuthenticated,)
           
-    def update(self, request , address_id):
-        self.object = Address.objects.get(pk = address_id)
-        instance = self.object
-        instance.city = request.data.get("city")
-        instance.zone = request.data.get("zone")
-        instance.street_name = request.data.get("street_name")
-        instance.building_number = request.data.get("building_number")
-        instance.flat_number = request.data.get("flat_number")
-        instance.land_mark = request.data.get("land_mark")
-        instance.days = request.data.get("days")
-        instance.start_time = request.data.get("start_time")
-        instance.end_time = request.data.get("end_time")
-        serializer = self.get_serializer(data = request.data)        
-        serializer.is_valid(raise_exception=True) 
-        instance.save()  
-        return Response(
-            { 
-                'message': 'updated successfully'
-            }
-        )
+    def patch (self, request , address_id):
+        instance= Address.objects.get(pk = address_id , user=self.request.user.id)
+        serializer = DoctorAddressSerializer(instance , data=request.data , partial = True )        
+        serializer.is_valid(raise_exception=True)
+        serializer.save()        
+        return Response(serializer.data)          
 
 #########################################  Get All Address of patient  ###################################
 

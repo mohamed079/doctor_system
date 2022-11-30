@@ -5,7 +5,7 @@ from rest_framework import serializers
 class PatientAddressSerializer(serializers.ModelSerializer):
     class Meta :       
         model = Address
-        fields = ("city" , "zone" , "street_name" , "building_number" , "flat_number" , "land_mark") 
+        fields = ("city" , "zone" , "street_name" , "building_number" , "flat_number" , "land_mark" , "latitude" , "longitude") 
         
     def create(self, validated_data ):
         address = Address.objects.create(
@@ -16,6 +16,8 @@ class PatientAddressSerializer(serializers.ModelSerializer):
             building_number = validated_data["building_number"],
             flat_number = validated_data["flat_number"],
             land_mark = validated_data["land_mark"],
+            latitude = validated_data["latitude"],
+            longitude = validated_data["longitude"],
 
         )      
         return address  
@@ -24,7 +26,7 @@ class DoctorAddressSerializer(serializers.ModelSerializer):
     days = serializers.MultipleChoiceField(choices=Address.Day)
     class Meta :       
         model = Address
-        fields = ("city" , "zone" , "street_name" , "building_number" , "flat_number" , "land_mark" , "days" , "start_time" , "end_time") 
+        fields = ("city" , "zone" , "street_name" , "building_number" , "flat_number" , "land_mark" , "days" , "start_time" , "end_time" , "latitude" , "longitude") 
         
     def create(self, validated_data ):
         address = Address.objects.create(
@@ -38,6 +40,8 @@ class DoctorAddressSerializer(serializers.ModelSerializer):
             days = validated_data["days"],
             start_time = validated_data["start_time"],
             end_time = validated_data["end_time"],
+            latitude = validated_data["latitude"],
+            longitude = validated_data["longitude"],
 
         )      
         return address  
