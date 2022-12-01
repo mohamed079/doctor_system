@@ -48,7 +48,7 @@ class CreateDoctorAddress (generics.GenericAPIView):
 class DeleteAddress(generics.DestroyAPIView):
     authentication_classes = (TokenAuthentication,)    
     permission_classes = (permissions.IsAuthenticated,)
-
+    
     def delete(self, request , address_id):
         address = Address.objects.get(pk=address_id)
         address.delete()
