@@ -86,16 +86,23 @@ class ChangePasswordAPI(generics.UpdateAPIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-############################################    get doctor with Token  ###############################################
+############################################    get & update doctor  ###############################################
 
-class UserAPI (generics.RetrieveAPIView):
+class UserAPI (APIView):
     authentication_classes = (TokenAuthentication,)
-    permission_classes = [permissions.IsAuthenticated,]
-    serializer_class = DoctorSerializer 
+    permission_classes = (permissions.IsAuthenticated,)
 
-    def get_object (self):
-        doctor = Doctor.objects.get(email=self.request.user.email)
-        return doctor
+    def get(self, request):
+        doctor = Doctor.objects.filter(id = self.request.user.id)
+        data = DoctorSerializer(doctor , many=True).data
+        return Response(data)        
+
+    def patch (self, request ):
+        instance = Doctor.objects.get(id = self.request.user.id)    
+        serializer = DoctorSerializer(instance , data=request.data , partial = True )        
+        serializer.is_valid(raise_exception=True)
+        serializer.save()        
+        return Response(serializer.data)
 
 ############################################    get doctor   ###############################################
 
